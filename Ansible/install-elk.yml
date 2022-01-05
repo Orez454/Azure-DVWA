@@ -1,0 +1,48 @@
+---
+- hosts: elk
+  remote_user: azadmin
+  become: true
+  tasks:
+
+  - name: Install docker.io
+    apt:
+       update_cache: yes
+       force_apt_get: yes
+       name: docker.io
+
+  - name: Install python3-pip
+    apt:
+       force_apt_get: yes
+       name: python3-pip
+       state: present
+
+  - name: Install docker module
+    pip:
+       name: docker
+       state: present
+
+  - name: Set virtual memory higher
+    command: sysctl -w vm.max_map_count=262144
+
+  - name: Use more memory
+    ansible.posix.sysctl:
+       name: vm.max_map_count
+       value: 262144
+       state: present
+       reload: yes
+
+  - name: Download and launch the ELK docker container
+    docker_container:
+       name: elk
+       image: sebp/elk:761
+       state: started
+       restart_policy: always
+       published_ports:
+          - 5601:5601
+          - 9200:9200
+          - 5044:5044
+
+  - name: Enable service docker on boot
+    ansible.builtin.systemd:
+       name: docker
+       enabled: yes
