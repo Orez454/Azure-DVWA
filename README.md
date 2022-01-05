@@ -5,7 +5,7 @@ Secure Azure Environment with load balanced DVWA servers with a jump box and ELK
 
 The files in this repository were used to configure the network depicted below.
 
-![Network Diagram][Images/Network Diagram.jpeg]
+![Network Diagram](Images/Network%20Diagram.jpg)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. The Filebeat and Metricbeat configuration files must be downloaded locally and updated with appropriate configurations prior to running the playbooks.
 
